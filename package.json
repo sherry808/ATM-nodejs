@@ -1,0 +1,22 @@
+{
+  "name": "atm-nodejs",
+  "version": "1.0.0",
+  "description": "ATM withdrawal functionality application.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sherry808/ATM-nodejs.git"
+  },
+  "author": "sherry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sherry808/ATM-nodejs/issues"
+  },
+  "homepage": "https://github.com/sherry808/ATM-nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
