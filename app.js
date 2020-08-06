@@ -1,4 +1,5 @@
 const express = require("express");
+const _ = require("lodash");
 
 const app = express();
 app.use(express.json());
@@ -10,29 +11,36 @@ const supportedDenominations = [10, 20, 50, 100, 200, 500, 1000];
 app.route("/").post(function (req, res) {
   const withdrawalAmount = req.body.amount;
   const preferredDenomination = req.body.preferredDenomination;
-  let dispensedNotes = {}
+  let dispensedNotes = {};
 
-  if (preferredDenomination == null) {
-
-    dispensedNotes = calculateNotes(withdrawalAmount, supportedDenominations);
-
+  if (_.isEmpty(req.body)) {
+    res.status(400).send("Missing Withdrwal Amount");
+  } else if (withdrawalAmount % 10 != 0) {
+    res.status(422).send("Invalid amount!");
   } else {
-    const balance = withdrawalAmount % preferredDenomination; 
-    if (balance == 0) {
-      dispensedNotes[preferredDenomination] = withdrawalAmount / preferredDenomination;
+    if (preferredDenomination == null) {
+      dispensedNotes = calculateNotes(withdrawalAmount, supportedDenominations);
     } else {
-      dispensedNotes = calculateNotes(balance, supportedDenominations);
-      dispensedNotes[preferredDenomination] = Math.floor(withdrawalAmount / preferredDenomination);
+      const balance = withdrawalAmount % preferredDenomination;
+      if (balance == 0) {
+        dispensedNotes[preferredDenomination] =
+          withdrawalAmount / preferredDenomination;
+      } else {
+        dispensedNotes = calculateNotes(balance, supportedDenominations);
+        dispensedNotes[preferredDenomination] = Math.floor(
+          withdrawalAmount / preferredDenomination
+        );
+      }
     }
-  }
 
-  res.send(dispensedNotes);
+    res.send(dispensedNotes);
+  }
 });
 
 function calculateNotes(balance, supportedDenominations) {
   notes = {};
-  for (var i = supportedDenominationss.length - 1; i >= 0; i--) {
-    curr = balance % supportedDenominationss[i];
+  for (var i = supportedDenominations.length - 1; i >= 0; i--) {
+    curr = balance % supportedDenominations[i];
 
     if (curr == 0) {
       notes[supportedDenominations[i]] = balance / supportedDenominations[i];
