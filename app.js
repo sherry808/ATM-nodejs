@@ -1,5 +1,6 @@
 const express = require("express");
 const _ = require("lodash");
+const {calculateNotes} = require("./util.js");
 
 const app = express();
 app.use(express.json());
@@ -14,8 +15,8 @@ app.route("/").post(function (req, res) {
   let dispensedNotes = {};
 
   if (_.isEmpty(req.body)) {
-    res.status(400).send("Missing Withdrwal Amount");
-  } else if (withdrawalAmount % 10 != 0) {
+    res.status(400).send("Missing Withdrawal Amount");
+  } else if (withdrawalAmount % 10 != 0 || withdrawalAmount >10000) {
     res.status(422).send("Invalid amount!");
   } else {
     if (preferredDenomination == null) {
@@ -37,24 +38,7 @@ app.route("/").post(function (req, res) {
   }
 });
 
-function calculateNotes(balance, supportedDenominations) {
-  notes = {};
-  for (var i = supportedDenominations.length - 1; i >= 0; i--) {
-    curr = balance % supportedDenominations[i];
-
-    if (curr == 0) {
-      notes[supportedDenominations[i]] = balance / supportedDenominations[i];
-      break;
-    } else {
-      notes[supportedDenominations[i]] = Math.floor(
-        balance / supportedDenominations[i]
-      );
-      balance = curr;
-    }
-  }
-  return notes;
-}
-
 app.listen(port, () => {
   console.log(`Listening on ${port}`);
 });
+

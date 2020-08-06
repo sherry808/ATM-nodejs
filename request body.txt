@@ -1,0 +1,7 @@
+The rquest body for the withdaw api route:
+1. When there is no preferred denomination:
+
+{"amount": 5000, denomination = null}
+
+2. When denomination is speicified
+{"amount": 5000, deonmination = 500}

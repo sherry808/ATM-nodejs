@@ -1,9 +1,0 @@
-rquest body =
-{"amount": 5000, denomination = null}
-
-{"amount": 5000, deonmination = 500}
-
-1. Clean up calculate notes 
-2. Add test for calculate notes
-2.a assert function and compare two object --> lodash?
-3 invalid request -> when data is not recived AND reutes invalid data like 3 rs
